@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import jsonify
 from MadproBot import app
 
+app = Flask(__name__)
 @app.route('/')
 @app.route('/home')
 def home():
@@ -13,3 +14,4 @@ def home():
 def webhook():
     reply_to_line(request.json)
     return '', 200, {}
+
