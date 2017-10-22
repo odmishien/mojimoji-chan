@@ -1,4 +1,4 @@
-import os.path,sys
+import os.path,sys,shutil
 from flask import Flask, request, abort
 
 from linebot import (
@@ -8,7 +8,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,ImageMessage,ImagemapSendMessage
+    MessageEvent, TextMessage, TextSendMessage,ImageMessage,ImageSendMessage
 )
 
 app = Flask(__name__)
@@ -43,8 +43,17 @@ def handle_message(event):
 @handler.add(MessageEvent,message=ImageMessage)
 def handle_img(event):
     message_content = line_bot_api.get_message_content(event.message.id)
-    img = message_content.content
-    print(img)
+    with open("test.jpg","wb") as fp:
+        shutil.copyfileobj(message_content,fp)
+    line_bot_api.reply_message(
+        event.reply_token,
+        ImageSendMessage(
+            original_content_url='test.jpg',
+            preview_image_url='test.jpg'
+        )
+    )
+
+    
     # line_bot_api.reply_message(
     #     event.reply_token,
 
