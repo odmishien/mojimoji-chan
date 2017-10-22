@@ -1,1 +1,1 @@
-web: gunicorn sys:app --log-file=-
+web: gunicorn mojimoji:app --log-file=-
