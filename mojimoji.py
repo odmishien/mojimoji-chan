@@ -43,8 +43,8 @@ def handle_message(event):
 def handle_img(event):
     message_content = line_bot_api.get_message_content(event.message.id)
     with open(file_path, 'wb') as fd:
-    for chunk in message_content.iter_content():
-        fd.write(chunk)
+        for chunk in message_content.iter_content():
+            fd.write(chunk)
     print(chunk)
     # line_bot_api.reply_message(
     #     event.reply_token,
