@@ -52,8 +52,16 @@ def handle_message(event):
 
 @handler.add(MessageEvent,message=ImageMessage)
 def handle_img(event):
+    if isinstance(event.message, ImageMessage):
+        ext = 'jpg'
+    else:
+        sorry_text='画像以外は送れません、ごめんなさい!'
+        line_bot_api.reply_message(
+            event.reply_token, TextSendMessage(text=sorry_text))
+        return
+
     message_content = line_bot_api.get_message_content(event.message.id)
-    with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix='jpg-', delete=False) as tf:
+    with tempfile.NamedTemporaryFile(dir=static_tmp_path, prefix=ext + '-', delete=False) as tf:
         for chunk in message_content.iter_content():
             tf.write(chunk)
     # line_bot_api.reply_message(
