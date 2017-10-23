@@ -64,7 +64,7 @@ def handle_img(event):
     with tempfile.NamedTemporaryFile(dir=static_tmp_path) as tf:
         for chunk in message_content.iter_content():
             tf.write(chunk)
-        print(tf.name)
+        
     # line_bot_api.reply_message(
     #     event.reply_token,
     #     ImageSendMessage(
