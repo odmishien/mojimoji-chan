@@ -90,7 +90,7 @@ def handle_img(event):
         for txt_lines in parsed['regions']:
             for txt_words in txt_lines['lines']:            
                 for txt_word in txt_words['words']:
-                    if cv_data['language'] == 'ja':
+                    if parsed['language'] == 'ja':
                         output += txt_word['text']
                     else:
                         output += txt_word['text'] + ' '
