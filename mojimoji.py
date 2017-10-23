@@ -86,7 +86,7 @@ def handle_img(event):
 
     headers = {
         # Request headers.
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/octet-stream',
         'Ocp-Apim-Subscription-Key': subscription_key,
     }
 
@@ -97,7 +97,7 @@ def handle_img(event):
     })
 
     # The URL of a JPEG image containing text.
-    body = "{\'url\':" + chunk.name + "}"
+    body = chunk
 
     try:
         # Execute the REST API call and get the response.
