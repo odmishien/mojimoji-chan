@@ -34,7 +34,6 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    print(body)
     # handle webhook body
     try:
         handler.handle(body, signature)
@@ -100,7 +99,7 @@ def handle_img(event):
     except Exception as e:
         print('Error:')
         print(e)
-    
+    print(output)
     line_bot_api.reply_message(
         event.reply_token,TextSendMessage(text=output))
 
