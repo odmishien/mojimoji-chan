@@ -117,8 +117,6 @@ def handle_img(event):
 
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(
-            event.reply_token, TextSendMessage(text=output))
-    )
+        TextSendMessage(text=output))
 if __name__ == "__main__":
     app.run()
