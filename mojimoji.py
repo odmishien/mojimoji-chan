@@ -100,12 +100,7 @@ def handle_img(event):
         print('Error:')
         print(e)
 
-    try:    
-        print(output)
-        line_bot_api.reply_message(
-            event.reply_token,TextSendMessage(text=output))
-
-    except line_bot_api.error as e:
-        print(e)
+    print(output)
+    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
     app.run()
