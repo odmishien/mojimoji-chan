@@ -86,6 +86,7 @@ def handle_img(event):
 
         output = ""
         parsed = json.loads(data)
+        print(parsed)
         for txt_lines in parsed['regions']:
             for txt_words in txt_lines['lines']:            
                 for txt_word in txt_words['words']:
@@ -95,7 +96,6 @@ def handle_img(event):
                         output += txt_word['text'] + ' '
                 output += '\n'
             output += '\n'
-        print(output)
     except Exception as e:
         print('Error:')
         print(e)
