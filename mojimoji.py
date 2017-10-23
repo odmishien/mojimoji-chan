@@ -98,7 +98,7 @@ def handle_img(event):
         response = conn.getresponse()
         data = response.read()
 
-        # 'data' contains the JSON data. The following formats the JSON data for display.
+        output = ""
         parsed = json.loads(data)
         for txt_lines in parsed['regions']:
             for txt_words in txt_lines['lines']:            
