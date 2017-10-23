@@ -86,7 +86,8 @@ def handle_img(event):
 
         output = ""
         parsed = json.loads(data)
-        if parsed ['regions'] == "[]":
+        print(parsed['regions'])
+        if parsed ['regions'] == []:
             output = "文字は見当たりません。。。"
         else:
             for txt_lines in parsed['regions']:
