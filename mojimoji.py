@@ -61,10 +61,9 @@ def handle_img(event):
         return
 
     message_content = line_bot_api.get_message_content(event.message.id)
-    with tempfile.NamedTemporaryFile(suffix=".jpg") as tf:
-        for chunk in message_content.iter_content():
-            tf.write(chunk)
-    print(chunk)
+    f = open('image.jpg','w')
+    f.write(message_content.iter_content())
+    f.close()
     import http.client, urllib.request, urllib.parse, urllib.error, base64, json
 
     ###############################################
@@ -86,7 +85,7 @@ def handle_img(event):
 
     headers = {
         # Request headers.
-        'Content-Type': 'application/octet-stream',
+        'Content-Type': 'application/json',
         'Ocp-Apim-Subscription-Key': subscription_key,
     }
 
@@ -97,7 +96,7 @@ def handle_img(event):
     })
 
     # The URL of a JPEG image containing text.
-    body = chunk
+    body = "{'url': 'image.jpg'}"
 
     try:
         # Execute the REST API call and get the response.
