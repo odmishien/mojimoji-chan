@@ -60,7 +60,7 @@ def handle_img(event):
             event.reply_token, TextSendMessage(text=sorry_text))
         return
 
-    message_content = line_bot_api.get_message_content(event.message.id)
+    message_content = line_bot_api.get_message_iter_content(event.message.id)
     
     import http.client, urllib.request, urllib.parse, urllib.error, base64, json
 
