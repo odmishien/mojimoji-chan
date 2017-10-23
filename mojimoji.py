@@ -97,7 +97,7 @@ def handle_img(event):
     })
 
     # The URL of a JPEG image containing text.
-    body = "{'url':'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Atomist_quote_from_Democritus.png/338px-Atomist_quote_from_Democritus.png'}"
+    body = "{\'url\':" + chunk + "}"
 
     try:
         # Execute the REST API call and get the response.
