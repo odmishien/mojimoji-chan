@@ -97,7 +97,7 @@ def handle_img(event):
     })
 
     # The URL of a JPEG image containing text.
-    body = chunk
+    body = "{\'url\':" + chunk.name + "}"
 
     try:
         # Execute the REST API call and get the response.
