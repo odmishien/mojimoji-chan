@@ -64,11 +64,6 @@ def handle_img(event):
     
     import http.client, urllib.request, urllib.parse, urllib.error, base64, json
 
-    ###############################################
-    #### Update or verify the following values. ###
-    ###############################################
-
-    # Replace the subscription_key string value with your valid subscription key.
     subscription_key = 'f4f305f4d10548e6abe86b32e98852b0'
 
     # Replace or verify the region.
@@ -98,34 +93,32 @@ def handle_img(event):
 
     try:
         # Execute the REST API call and get the response.
-        conn = http.client.HTTPSConnection('westcentralus.api.cognitive.microsoft.com')
+        conn = http.client.HTTPSConnection(uri_base)
         conn.request("POST", "/vision/v1.0/ocr?%s" % params, body, headers)
         response = conn.getresponse()
         data = response.read()
 
         # 'data' contains the JSON data. The following formats the JSON data for display.
         parsed = json.loads(data)
-        print ("Response:")
-        print (json.dumps(parsed, sort_keys=True, indent=2))
-        conn.close()
+        for txt_lines in parsed['regions']:
+            for txt_words in txt_lines['lines']:            
+                for txt_word in txt_words['words']:
+                    if cv_data['language'] == 'ja':
+                        output += txt_word['text']
+                    else:
+                        output += txt_word['text'] + ' '
+                output += '\n'
+            output += '\n'
 
     except Exception as e:
         print('Error:')
         print(e)
-
-    # line_bot_api.reply_message(
-    #     event.reply_token,
-    #     ImageSendMessage(
-    #         original_content_url='test.jpg',
-    #         preview_image_url='test.jpg'
-    #     )
-    # )
-
     
-    # line_bot_api.reply_message(
-    #     event.reply_token,
 
-    # )
-
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(
+            event.reply_token, TextSendMessage(text=output))
+    )
 if __name__ == "__main__":
     app.run()
