@@ -64,7 +64,7 @@ def handle_img(event):
     with tempfile.NamedTemporaryFile() as tf:
         for chunk in message_content.iter_content():
             tf.write(chunk)
-
+    print(chunk)
     import http.client, urllib.request, urllib.parse, urllib.error, base64, json
 
     ###############################################
