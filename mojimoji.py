@@ -60,7 +60,7 @@ def handle_img(event):
             event.reply_token, TextSendMessage(text=sorry_text))
         return
 
-    message_content = line_bot_api.get_message_iter_content(event.message.id)
+    message_content = line_bot_api.get_message_content(event.message.id)
     
     import http.client, urllib.request, urllib.parse, urllib.error, base64, json
 
@@ -94,7 +94,7 @@ def handle_img(event):
     })
 
     # The URL of a JPEG image containing text.
-    body = message_content
+    body = message_content.iter_content()
 
     try:
         # Execute the REST API call and get the response.
