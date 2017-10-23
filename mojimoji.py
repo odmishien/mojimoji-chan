@@ -93,13 +93,19 @@ def handle_img(event):
                         output += txt_word['text']
                     else:
                         output += txt_word['text'] + ' '
+                output += '\n'
+            output += '\n'
+
     except Exception as e:
         print('Error:')
         print(e)
 
-    print(output)
-    line_bot_api.reply_message(
-        event.reply_token,TextSendMessage(text=output))
+    try:    
+        print(output)
+        line_bot_api.reply_message(
+            event.reply_token,TextSendMessage(text=output))
 
+    except LineBotApiError as e:
+        print(e)
 if __name__ == "__main__":
     app.run()
