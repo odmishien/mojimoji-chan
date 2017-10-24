@@ -70,7 +70,7 @@ def handle_postback(event):
     global moji_format
     moji_format = post.data
     line_bot_api.reply_message(
-        event.reply_token,TexySendMessage(text="画像を送ってくださいね！"))
+        event.reply_token,TextSendMessage(text="画像を送ってくださいね！"))
 
 @handler.add(MessageEvent,message=ImageMessage)
 def handle_img(event):
