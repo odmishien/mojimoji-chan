@@ -111,7 +111,6 @@ def handle_img(event):
 
             output = ""
             parsed = json.loads(result)
-            print(parsed['regions'])
             if parsed ['regions'] == []:
                 output = "文字は見当たりません。。。"
             else:
@@ -137,7 +136,9 @@ def handle_img(event):
             conn.request('POST','/vision/v1.0/RecognizeText%s'%params,body,headers)
             response = conn.getresponse()
             data = response.read()
-            output = data 
+            output = ""
+            parsed = json.loads(data) 
+            print(parsed)
             conn.close()
         except Exception as e:
             print("[Errno {0}] {1}".format(e.errno, e.strerror))
