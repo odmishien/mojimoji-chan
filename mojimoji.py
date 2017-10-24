@@ -18,6 +18,8 @@ handler = WebhookHandler('23172aefb6f71f1e78f643b171b6c389')
 
 static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
 
+moji_format = ""
+
 def make_static_tmp_dir():
     try:
         os.makedirs(static_tmp_path)
@@ -29,12 +31,8 @@ def make_static_tmp_dir():
 
 @app.route("/callback", methods=['POST'])
 def callback():
-    # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
-
-    # get request body as text
     body = request.get_data(as_text=True)
-    # handle webhook body
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -56,20 +54,23 @@ def handle_message(event):
         actions=[
             PostbackTemplateAction(
                 label='手書き',
-                data='format=our'
+                data='our'
             ),
             PostbackTemplateAction(
                 label='手書き以外(印刷物など)',
-                data='format=ocr'
+                data='ocr'
             )
         ]
     )
 ))
+
 @handler.add(PostbackEvent)
 def handle_postback(event):
     post = event.postback
-    data = post.data
-    print(data)
+    global moji_format
+    moji_format = post.data
+    line_bot_api.reply_message(
+        event.reply_token,TexySendMessage(text="画像を送ってくださいね！"))
 
 @handler.add(MessageEvent,message=ImageMessage)
 def handle_img(event):
@@ -92,38 +93,54 @@ def handle_img(event):
         'Content-Type': 'application/octet-stream',
         'Ocp-Apim-Subscription-Key': subscription_key,
     }
+    
+    #手書き文字以外の解析
+    if moji_format == "ocr":
+        params = urllib.parse.urlencode({
+            'language': 'unk',
+            'detectOrientation ': 'true',
+        })
 
-    params = urllib.parse.urlencode({
-        'language': 'unk',
-        'detectOrientation ': 'true',
-    })
+        body = message_content.iter_content()
 
-    body = message_content.iter_content()
+        try:
+            conn = http.client.HTTPSConnection(uri_base)
+            conn.request("POST", "/vision/v1.0/ocr?%s" % params, body, headers)
+            response = conn.getresponse()
+            result = response.read()
 
-    try:
+            output = ""
+            parsed = json.loads(result)
+            print(parsed['regions'])
+            if parsed ['regions'] == []:
+                output = "文字は見当たりません。。。"
+            else:
+                for txt_lines in parsed['regions']:
+                    for txt_words in txt_lines['lines']:            
+                        for txt_word in txt_words['words']:
+                            if parsed['language'] == 'ja':
+                                output += txt_word['text']
+                            else:
+                                output += txt_word['text'] + ' '
+                        output += '\n'
+                    output += '\n'
+        except Exception as e:
+            print('Error:')
+            print(e)
+
+    #手書き文字の解析
+    else:
+        body = message_content.iter_content()
+        params = {'handwriting' : 'true'}
+        try:
         conn = http.client.HTTPSConnection(uri_base)
-        conn.request("POST", "/vision/v1.0/ocr?%s" % params, body, headers)
+        conn.request('POST','/vision/v1.0/RecognizeText%s'%params,body,headers)
         response = conn.getresponse()
         data = response.read()
-
-        output = ""
-        parsed = json.loads(data)
-        print(parsed['regions'])
-        if parsed ['regions'] == []:
-            output = "文字は見当たりません。。。"
-        else:
-            for txt_lines in parsed['regions']:
-                for txt_words in txt_lines['lines']:            
-                    for txt_word in txt_words['words']:
-                        if parsed['language'] == 'ja':
-                            output += txt_word['text']
-                        else:
-                            output += txt_word['text'] + ' '
-                    output += '\n'
-                output += '\n'
-    except Exception as e:
-        print('Error:')
-        print(e)
+        print(data)
+        conn.close()
+        except Exception as e:
+            print("[Errno {0}] {1}".format(e.errno, e.strerror))
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
