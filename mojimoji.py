@@ -86,7 +86,7 @@ def handle_img(event):
     
     import http.client, urllib.request, urllib.parse, urllib.error, base64, json
     subscription_key = 'f4f305f4d10548e6abe86b32e98852b0'
-    uri_base = 'westus.api.cognitive.microsoft.com'
+    uri_base = 'southeastasia.api.cognitive.microsoft.com'
 
     headers = {
         # Request headers.
