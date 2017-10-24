@@ -60,11 +60,11 @@ def handle_message(event):
             ),
             MessageTemplateAction(
                 label='message',
-                text='手書き以外(印刷物など'
+                text='手書き以外(印刷物など)'
             )
         ]
     )
-)
+))
 
 @handler.add(MessageEvent,message=ImageMessage)
 def handle_img(event):
