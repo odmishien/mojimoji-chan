@@ -8,7 +8,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,ImageMessage,ImageSendMessage,TemplateSendMessage,ButtonsTemplate,MessageTemplateAction
+    MessageEvent,PostbackEvent, TextMessage, TextSendMessage,ImageMessage,ImageSendMessage,TemplateSendMessage,ButtonsTemplate,MessageTemplateAction,PostbackTemplateAction
 )
 
 app = Flask(__name__)
@@ -54,17 +54,22 @@ def handle_message(event):
         title='もじもじちゃんです',
         text='読み取りたい文字を選んでください！',
         actions=[
-            MessageTemplateAction(
-                label='message',
-                text='手書き'
+            PostbackTemplateAction(
+                label='手書き',
+                data='format=our'
             ),
-            MessageTemplateAction(
-                label='message',
-                text='手書き以外(印刷物など)'
+            PostbackTemplateAction(
+                label='手書き以外(印刷物など)',
+                data='format=ocr'
             )
         ]
     )
 ))
+@handler.add(PostbackEvent)
+def handle_postback(event):
+    post = event.postback
+    data = post.data
+    print(data)
 
 @handler.add(MessageEvent,message=ImageMessage)
 def handle_img(event):
