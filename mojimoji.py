@@ -97,6 +97,7 @@ def handle_img(event):
         'Ocp-Apim-Subscription-Key': subscription_key,
     }
     
+    global moji_format
     #手書き文字以外の解析
     if moji_format == "ocr":
         params = urllib.parse.urlencode({
