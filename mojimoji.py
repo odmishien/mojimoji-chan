@@ -104,9 +104,8 @@ def handle_img(event):
     #翻訳機能
     from microsofttranslator import Translator
     if parsed['language'] != "ja":
-        clientId = 'fd1a4c41-67cc-4d53-8ddb-512ee198c4d0'
-        clientSecret = '993be00e1c8048a794bbaab84a558066'
-        translator = Translator(clientId,clientSecret)
+        accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzY29wZSI6Imh0dHBzOi8vZGV2Lm1pY3Jvc29mdHRyYW5zbGF0b3IuY29tLyIsInN1YnNjcmlwdGlvbi1pZCI6IjhkNGFmOTU5Y2EzYzQ4YjhhMTIxZmMyODEyM2M2YjY0IiwicHJvZHVjdC1pZCI6IlNwZWVjaFRyYW5zbGF0b3IuUzMiLCJjb2duaXRpdmUtc2VydmljZXMtZW5kcG9pbnQiOiJodHRwczovL2FwaS5jb2duaXRpdmUubWljcm9zb2Z0LmNvbS9pbnRlcm5hbC92MS4wLyIsImF6dXJlLXJlc291cmNlLWlkIjoiL3N1YnNjcmlwdGlvbnMvZmQxYTRjNDEtNjdjYy00ZDUzLThkZGItNTEyZWUxOThjNGQwL3Jlc291cmNlR3JvdXBzL3dheS9wcm92aWRlcnMvTWljcm9zb2Z0LkNvZ25pdGl2ZVNlcnZpY2VzL2FjY291bnRzL21vamltb2ppIiwiaXNzIjoidXJuOm1zLmNvZ25pdGl2ZXNlcnZpY2VzIiwiYXVkIjoidXJuOm1zLm1pY3Jvc29mdHRyYW5zbGF0b3IiLCJleHAiOjE1MDg5MTcxNDR9.j2rESxaxufqLmhWwjXAmNUHSpjGKUIvHeeMsBTrgzok'
+        translator = Translator(accessToken)
         ja = translator.translate(text=output,to_lang='ja',from_lang=parsed['language'])
         print(ja)
 
