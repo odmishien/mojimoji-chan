@@ -103,11 +103,11 @@ def handle_img(event):
 
     #翻訳機能
     from microsofttranslator import Translator
-    clientId = 'mojimoji'
-    clientSecret = '993be00e1c8048a794bbaab84a558066'
-    translator = Translator(clientId,clientSecret)
-    ja = translator.translate(text=output,to_lang='ja',from_lang=parsed['language'])
-    print(ja)
+    if parsed['language'] != "ja":
+        AccessKey = '993be00e1c8048a794bbaab84a558066'
+        translator = Translator(AccessKey)
+        ja = translator.translate(text=output,to_lang='ja',from_lang=parsed['language'])
+        print(ja)
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
