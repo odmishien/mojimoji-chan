@@ -64,6 +64,7 @@ def handle_message(event):
         ]
     )
 )])
+    return ""
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
@@ -72,7 +73,8 @@ def handle_postback(event):
     moji_format = post.data
     line_bot_api.reply_message(
         event.reply_token,[TextSendMessage(text="画像を送ってくださいね！")])
-    return moji_format
+
+    return ""
 
 @handler.add(MessageEvent,message=ImageMessage)
 def handle_img(event):
@@ -91,7 +93,6 @@ def handle_img(event):
     uri_base = 'westcentralus.api.cognitive.microsoft.com'
 
     headers = {
-        # Request headers.
         'Content-Type': 'application/octet-stream',
         'Ocp-Apim-Subscription-Key': subscription_key,
     }
@@ -133,7 +134,7 @@ def handle_img(event):
     else:
         print(moji_format)
         body = message_content.iter_content()
-        params = urllib.parse.urlencode({'handwriting' : 'true'})
+        params = urllib.parse.urlencode({'handwriting' : 'true',})
         try:
             conn = http.client.HTTPSConnection(uri_base)
             conn.request('POST','/vision/v1.0/recognizeText?%s' % params, body, headers)
