@@ -111,11 +111,12 @@ def handle_img(event):
             'contentType' : 'text/plain',
             'Ocp-Apim-Subscription-Key': subscription,
         })
-        response = requests.get(
-            'https://api.microsofttransrator.com/v2/http.svc/Translate',
-            params
-        ).text
-        print(response)
+        conn = http.client.HTTPSConnection('api.microsofttransrator.com')
+        conn.request("GET","/v2/http.svc/Translate?%s" % params)
+        responses = conn.getresponse()
+        datas = responses.read()
+        parseds = json.loads(datas)
+        print(parseds)
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
     app.run()
