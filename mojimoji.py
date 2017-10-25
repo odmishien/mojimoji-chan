@@ -97,8 +97,6 @@ def handle_img(event):
                             output += txt_word['text']
                         else:
                             output += txt_word['text'] + ' '
-                    output += '\n'
-                output += '\n'
     except Exception as e:
         print('Error:')
         print(e)
