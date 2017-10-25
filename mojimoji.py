@@ -136,7 +136,7 @@ def handle_img(event):
         params = urllib.parse.urlencode({'handwriting' : 'true'})
         try:
             conn = http.client.HTTPSConnection(uri_base)
-            conn.request('POST','/vision/v1.0/recognizeText%s' % params, body, headers)
+            conn.request('POST','/vision/v1.0/recognizeText?%s' % params, body, headers)
             response = conn.getresponse()
             data = response.read()
             output = ""
