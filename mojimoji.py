@@ -38,16 +38,16 @@ def callback():
     except InvalidSignatureError:
         abort(400)
 
-    return ''
+    return 'OK'
 
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TemplateSendMessage(
-            alt_text='Buttons template',
-    template=ButtonsTemplate(
+        [TemplateSendMessage(
+        alt_text='Buttons template',
+        template=ButtonsTemplate(
         thumbnail_image_url='https://example.com/image.jpg',
         title='もじもじちゃんです',
         text='読み取りたい文字を選んでください！',
@@ -62,16 +62,15 @@ def handle_message(event):
             )
         ]
     )
-))
+)])
 
 @handler.add(PostbackEvent)
 def handle_postback(event):
     post = event.postback
-    global moji_format
     moji_format = post.data
     print(moji_format)
     line_bot_api.reply_message(
-        event.reply_token,TextSendMessage(text="画像を送ってくださいね！"))
+        event.reply_token,[TextSendMessage(text="画像を送ってくださいね！")])
 
 @handler.add(MessageEvent,message=ImageMessage)
 def handle_img(event):
@@ -80,7 +79,7 @@ def handle_img(event):
     else:
         sorry_text='画像以外は送れません、ごめんなさい!'
         line_bot_api.reply_message(
-            event.reply_token, TextSendMessage(text=sorry_text))
+            event.reply_token, [TextSendMessage(text=sorry_text)])
         return
 
     message_content = line_bot_api.get_message_content(event.message.id)
