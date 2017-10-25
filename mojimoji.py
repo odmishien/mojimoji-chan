@@ -130,6 +130,7 @@ def handle_img(event):
         except Exception as e:
             print('Error:')
             print(e)
+            print("ocrだよ")
 
     #手書き文字の解析
     else:
@@ -149,6 +150,7 @@ def handle_img(event):
         except Exception as e:
             print("Error:")
             print(e)
+            print("ourだよ")
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
