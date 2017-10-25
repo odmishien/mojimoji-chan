@@ -111,7 +111,7 @@ def handle_img(event):
             'contentType' : 'text/plain',
             'Ocp-Apim-Subscription-Key': subscription,
         })
-        response = request.get(
+        response = requests.get(
             'https://api.microsofttransrator.com/v2/http.svc/Translate',
             params
         ).text
