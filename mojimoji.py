@@ -145,7 +145,8 @@ def handle_img(event):
             print(parsed)
             conn.close()
         except Exception as e:
-            print("[Errno {0}] {1}".format(e.errno, e.strerror))
+            print("Error:")
+            print(e)
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
