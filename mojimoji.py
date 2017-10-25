@@ -114,7 +114,7 @@ def handle_img(event):
             'contentType' : 'text/plain',
         })
         conn = http.client.HTTPSConnection('api.microsofttransrator.com')
-        conn.request("GET","/v2/http.svc/Translate?%s" % params, headers)
+        conn.request("GET","/v2/http.svc/Translate?%s" % params, body=None, headers)
         responses = conn.getresponse()
         datas = responses.read()
         parseds = json.loads(datas)
