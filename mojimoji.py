@@ -68,10 +68,11 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     post = event.postback
+    global moji_format
     moji_format = post.data
-    print(moji_format)
     line_bot_api.reply_message(
         event.reply_token,[TextSendMessage(text="画像を送ってくださいね！")])
+    return moji_format
 
 @handler.add(MessageEvent,message=ImageMessage)
 def handle_img(event):
