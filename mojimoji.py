@@ -140,8 +140,8 @@ def handle_img(event):
             conn = http.client.HTTPSConnection(uri_base)
             conn.request('POST','/vision/v1.0/recognizeText?%s' % params, body, headers)
             response = conn.getresponse()
-            print(response)
             data = response.read()
+            print(data)
             output = ""
             parsed = json.loads(data) 
             print("これはパースです")
