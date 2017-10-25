@@ -102,7 +102,7 @@ def handle_img(event):
         print(e)
 
     #翻訳機能
-    from microsofttransrator import Translator
+    from microsofttranslator import Translator
     clientId = 'fd1a4c41-67cc-4d53-8ddb-512ee198c4d0'
     clientSecret = '993be00e1c8048a794bbaab84a558066'
     translator = Translator(clientId,clientSecret)
