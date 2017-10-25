@@ -101,24 +101,25 @@ def handle_img(event):
         print('Error:')
         print(e)
 
-    # #翻訳機能
-    # import requests
-    # if parsed['language'] != "ja":
-    #     subscription = '993be00e1c8048a794bbaab84a558066'
-    #     headers = {'Ocp-Apim-Subscription-Key': subscription,}
-    #     params = urllib.parse.urlencode({
-    #         'appid' : "Bearer" + " " + "access_token",
-    #         'text' : output,
-    #         'from' : parsed['language'],
-    #         'to' : 'ja',
-    #         'contentType' : 'text/plain',
-    #     })
-    #     conn = http.client.HTTPSConnection('api.microsofttransrator.com')
-    #     conn.request("GET","/v2/http.svc/Translate?%s" % params, None, headers)
-    #     responses = conn.getresponse()
-    #     datas = responses.read()
-    #     parseds = json.loads(datas)
-    #     print(parseds)
+    #翻訳機能
+    import requests
+    if parsed['language'] != "ja":
+        subscription = '993be00e1c8048a794bbaab84a558066'
+        headers = {'Ocp-Apim-Subscription-Key': subscription,}
+        params = urllib.parse.urlencode({
+            'appid' : "Bearer" + " " + "access_token",
+            'text' : output,
+            'from' : parsed['language'],
+            'to' : 'ja',
+            'contentType' : 'text/plain',
+        })
+        res = requests.get('https://api.microsofttranslator.com')
+        conn = http.client.HTTPSConnection('')
+        conn.request("GET","/v2/http.svc/Translate?%s" % params, None, headers)
+        responses = conn.getresponse()
+        datas = responses.read()
+        parseds = json.loads(datas)
+        print(parseds)
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
     app.run()
