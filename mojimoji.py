@@ -104,8 +104,9 @@ def handle_img(event):
     #翻訳機能
     from microsofttranslator import Translator
     if parsed['language'] != "ja":
-        AccessKey = '993be00e1c8048a794bbaab84a558066'
-        translator = Translator(AccessKey)
+        clientId = 'fd1a4c41-67cc-4d53-8ddb-512ee198c4d0'
+        clientSecret = '993be00e1c8048a794bbaab84a558066'
+        translator = Translator(clientId,clientSecret)
         ja = translator.translate(text=output,to_lang='ja',from_lang=parsed['language'])
         print(ja)
 
