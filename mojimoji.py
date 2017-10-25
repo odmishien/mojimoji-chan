@@ -104,7 +104,7 @@ def handle_img(event):
     #翻訳機能
     import requests
     if parsed['language'] != "ja":
-        subscription = '993be00e1c8048a794bbaab84a558066'
+        subscription = '38985089ed774d57b36fa61c1f30ecd4'
         headers = {'Ocp-Apim-Subscription-Key': subscription,}
         params = urllib.parse.urlencode({
             'appid' : "Bearer" + " " + "access_token",
