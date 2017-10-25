@@ -102,13 +102,20 @@ def handle_img(event):
         print(e)
 
     #翻訳機能
-    from microsofttranslator import Translator
     if parsed['language'] != "ja":
-        accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzY29wZSI6Imh0dHBzOi8vZGV2Lm1pY3Jvc29mdHRyYW5zbGF0b3IuY29tLyIsInN1YnNjcmlwdGlvbi1pZCI6IjhkNGFmOTU5Y2EzYzQ4YjhhMTIxZmMyODEyM2M2YjY0IiwicHJvZHVjdC1pZCI6IlNwZWVjaFRyYW5zbGF0b3IuUzMiLCJjb2duaXRpdmUtc2VydmljZXMtZW5kcG9pbnQiOiJodHRwczovL2FwaS5jb2duaXRpdmUubWljcm9zb2Z0LmNvbS9pbnRlcm5hbC92MS4wLyIsImF6dXJlLXJlc291cmNlLWlkIjoiL3N1YnNjcmlwdGlvbnMvZmQxYTRjNDEtNjdjYy00ZDUzLThkZGItNTEyZWUxOThjNGQwL3Jlc291cmNlR3JvdXBzL3dheS9wcm92aWRlcnMvTWljcm9zb2Z0LkNvZ25pdGl2ZVNlcnZpY2VzL2FjY291bnRzL21vamltb2ppIiwiaXNzIjoidXJuOm1zLmNvZ25pdGl2ZXNlcnZpY2VzIiwiYXVkIjoidXJuOm1zLm1pY3Jvc29mdHRyYW5zbGF0b3IiLCJleHAiOjE1MDg5MTcxNDR9.j2rESxaxufqLmhWwjXAmNUHSpjGKUIvHeeMsBTrgzok'
-        translator = Translator(accessToken)
-        ja = translator.translate(text=output,to_lang='ja',from_lang=parsed['language'])
-        print(ja)
-
+        subscription = '993be00e1c8048a794bbaab84a558066'
+        params = urllib.parse.urlencode({
+            'text' : output,
+            'from' : parsed['language'],
+            'to' : 'ja',
+            'contentType' : 'text/plain',
+            'Ocp-Apim-Subscription-Key': subscription,
+        })
+        response = request.get(
+            'https://api.microsofttransrator.com/v2/http.svc/Translate',
+            params
+        ).text
+        print(response)
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
     app.run()
