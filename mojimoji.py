@@ -138,6 +138,7 @@ def handle_img(event):
             data = response.read()
             output = ""
             parsed = json.loads(data) 
+            print("これはパースです")
             print(parsed)
             conn.close()
         except Exception as e:
