@@ -69,6 +69,7 @@ def handle_postback(event):
     post = event.postback
     global moji_format
     moji_format = post.data
+    print(moji_format)
     line_bot_api.reply_message(
         event.reply_token,TextSendMessage(text="画像を送ってくださいね！"))
 
@@ -129,6 +130,7 @@ def handle_img(event):
 
     #手書き文字の解析
     else:
+        print(moji_format)
         body = message_content.iter_content()
         params = urllib.parse.urlencode({'handwriting' : 'true'})
         try:
