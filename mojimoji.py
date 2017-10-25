@@ -106,7 +106,7 @@ def handle_img(event):
     if parsed['language'] != "ja":
         subscription = '993be00e1c8048a794bbaab84a558066'
         params = urllib.parse.urlencode({
-            'appid' : "Bearer" + " " + "access_token"
+            'appid' : "Bearer" + " " + "access_token",
             'text' : output,
             'from' : parsed['language'],
             'to' : 'ja',
