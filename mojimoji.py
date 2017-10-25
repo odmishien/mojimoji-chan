@@ -105,16 +105,16 @@ def handle_img(event):
     import requests
     if parsed['language'] != "ja":
         subscription = '993be00e1c8048a794bbaab84a558066'
+        headers = {'Ocp-Apim-Subscription-Key': subscription,}
         params = urllib.parse.urlencode({
             'appid' : "Bearer" + " " + "access_token",
             'text' : output,
             'from' : parsed['language'],
             'to' : 'ja',
             'contentType' : 'text/plain',
-            'Ocp-Apim-Subscription-Key': subscription,
         })
         conn = http.client.HTTPSConnection('api.microsofttransrator.com')
-        conn.request("GET","/v2/http.svc/Translate?%s" % params)
+        conn.request("GET","/v2/http.svc/Translate?%s" % params, headers)
         responses = conn.getresponse()
         datas = responses.read()
         parseds = json.loads(datas)
