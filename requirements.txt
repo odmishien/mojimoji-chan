@@ -14,6 +14,7 @@ Keras==2.0.8
 line-bot-sdk==1.5.0
 Markdown==2.6.9
 MarkupSafe==1.0
+microsofttranslator==0.8
 numpy==1.13.3
 protobuf==3.4.0
 PyYAML==3.12

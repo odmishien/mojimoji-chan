@@ -101,6 +101,14 @@ def handle_img(event):
         print('Error:')
         print(e)
 
+    #翻訳機能
+    from microsofttransrator import Translator
+    clientId = 'fd1a4c41-67cc-4d53-8ddb-512ee198c4d0'
+    clientSecret = '993be00e1c8048a794bbaab84a558066'
+    translator = Translator(clientId,clientSecret)
+    ja = translator.translate(text=output,to_lang='ja',from_lang=parsed['language'])
+    print(ja)
+
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
     app.run()
