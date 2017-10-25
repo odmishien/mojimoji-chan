@@ -111,9 +111,8 @@ def handle_img(event):
             'text' : output,
             'from' : parsed['language'],
             'to' : 'ja',
-            'contentType' : 'text/plain',
         })
-        res = requests.get('https://api.cognitive.microsoft.com/sts/v1.0/Translate',params=params,headers=headers).text
+        res = requests.get('https://api.microsofttranslator.com/v2/Http.svc/Translate',params=params,headers=headers).text
         print(res)
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
