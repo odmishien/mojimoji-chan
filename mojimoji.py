@@ -102,6 +102,7 @@ def handle_img(event):
         print(e)
 
     #翻訳機能
+    import requests
     if parsed['language'] != "ja":
         subscription = '993be00e1c8048a794bbaab84a558066'
         params = urllib.parse.urlencode({
@@ -111,12 +112,11 @@ def handle_img(event):
             'contentType' : 'text/plain',
             'Ocp-Apim-Subscription-Key': subscription,
         })
-        conn = http.client.HTTPSConnection('api.microsofttransrator.com')
-        conn.request("GET","/v2/http.svc/Translate?%s" % params)
-        responses = conn.getresponse()
-        datas = responses.read()
-        parseds = json.loads(datas)
-        print(parseds)
+        responses = requests.get(
+            'https://api.microsofttranslator.com/v2/http.svc/Translate',
+            params=params
+        ).text
+        print(responses)
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
     app.run()
