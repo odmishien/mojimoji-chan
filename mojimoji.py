@@ -101,19 +101,19 @@ def handle_img(event):
         print('Error:')
         print(e)
 
-    #翻訳機能
-    import requests
-    if parsed['language'] != "ja":
-        subscription = '38985089ed774d57b36fa61c1f30ecd4'
-        headers = {'Ocp-Apim-Subscription-Key': subscription,}
-        params = urllib.parse.urlencode({
-            'appid' : "Bearer" + " " + "access_token",
-            'text' : output,
-            'from' : parsed['language'],
-            'to' : 'ja',
-        })
-        res = requests.get('https://api.microsofttranslator.com/v2/Http.svc/Translate',params=params,headers=headers).text
-        print(res)
+    # #翻訳機能だがちょっとazureの調子が悪い
+    # import requests
+    # if parsed['language'] != "ja":
+    #     subscription = '38985089ed774d57b36fa61c1f30ecd4'
+    #     headers = {'Ocp-Apim-Subscription-Key': subscription,}
+    #     params = urllib.parse.urlencode({
+    #         'appid' : "Bearer" + " " + "access_token",
+    #         'text' : output,
+    #         'from' : parsed['language'],
+    #         'to' : 'ja',
+    #     })
+    #     res = requests.get('https://api.microsofttranslator.com/v2/Http.svc/Translate',params=params,headers=headers).text
+    #     print(res)
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
     app.run()
