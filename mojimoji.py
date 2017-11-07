@@ -94,9 +94,10 @@ def handle_img(event):
                 for txt_words in txt_lines['lines']:            
                     for txt_word in txt_words['words']:
                         if parsed['language'] == 'ja':
-                            output += txt_word['text'] + "\n"
+                            output += txt_word['text']
                         else:
                             output += txt_word['text'] + ' '
+                    output += "\n"
     except Exception as e:
         print('Error:')
         print(e)
