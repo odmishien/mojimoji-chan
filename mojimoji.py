@@ -62,8 +62,8 @@ def handle_img(event):
     message_content = line_bot_api.get_message_content(event.message.id)
     
     import http.client, urllib.request, urllib.parse, urllib.error, base64, json
-    subscription_key = 'f4f305f4d10548e6abe86b32e98852b0'
-    uri_base = 'westcentralus.api.cognitive.microsoft.com'
+    subscription_key = 'dff80ee8bd3a4c6a9ac33f329788740c'
+    uri_base = 'eastasia.api.cognitive.microsoft.com'
 
     headers = {
         # Request headers.
