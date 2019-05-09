@@ -1,4 +1,4 @@
-import os, sys, tempfile, http.client, urllib.request, urllib.parse, urllib.error, base64, json
+import os, http.client, urllib.parse, json
 from flask import Flask, request, abort
 
 from linebot import (
@@ -80,7 +80,7 @@ def handle_img(event):
             output = "文字は見当たりません。。。"
         else:
             for txt_lines in parsed['regions']:
-                for txt_words in txt_lines['lines']:
+                for txt_words in txt_lines['lines']:
                     for txt_word in txt_words['words']:
                         if parsed['language'] == 'ja':
                             output += txt_word['text']

@@ -1,5 +1,4 @@
 *.pyc
 *.pyo
-moji
 .python-version
-
+.DS_Store
