@@ -1,4 +1,4 @@
-import os,sys,tempfile
+import os, sys, tempfile, http.client, urllib.request, urllib.parse, urllib.error, base64, json
 from flask import Flask, request, abort
 
 from linebot import (
@@ -12,20 +12,12 @@ from linebot.models import (
 )
 
 app = Flask(__name__)
+LINE_API_KEY = os.environ(["LINE_API_KEY"])
+WEBHOOK_HANDLER_KEY = os.environ(["WEBHOOK_HANDLER_KEY"])
+AZURE_SUBSC_KEY = os.environ(["AZURE_SUBSC_KEY"])
 
-line_bot_api = LineBotApi('HvlRdc8yEbGXkq/V9cRJ6/+yRgJuZGNFEzx7I7p/TUovvMhuVSwLW54aDFH+M07krwhBs2zDr013S0+kAZyxSMmRYRHn6ja3YzgQniObM3DXo7yv/+vBY5twglEUi43UUg5mIQEBpWZN5hrVkwkX/AdB04t89/1O/w1cDnyilFU=')
-handler = WebhookHandler('23172aefb6f71f1e78f643b171b6c389')
-
-static_tmp_path = os.path.join(os.path.dirname(__file__), 'static', 'tmp')
-
-def make_static_tmp_dir():
-    try:
-        os.makedirs(static_tmp_path)
-    except OSError as exc:
-        if exc.errno == errno.EEXIST and os.path.isdir(static_tmp_path):
-            pass
-        else:
-            raise
+line_bot_api = LineBotApi(LINE_API_KEY)
+handler = WebhookHandler(WEBHOOK_HANDLER_KEY)
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -60,15 +52,12 @@ def handle_img(event):
         return
 
     message_content = line_bot_api.get_message_content(event.message.id)
-    
-    import http.client, urllib.request, urllib.parse, urllib.error, base64, json
-    subscription_key = 'dff80ee8bd3a4c6a9ac33f329788740c'
-    uri_base = 'eastasia.api.cognitive.microsoft.com'
 
+    uri_base = 'eastasia.api.cognitive.microsoft.com'
     headers = {
         # Request headers.
         'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': subscription_key,
+        'Ocp-Apim-Subscription-Key': AZURE_SUBSC_KEY,
     }
 
     params = urllib.parse.urlencode({
@@ -91,7 +80,7 @@ def handle_img(event):
             output = "文字は見当たりません。。。"
         else:
             for txt_lines in parsed['regions']:
-                for txt_words in txt_lines['lines']:            
+                for txt_words in txt_lines['lines']:
                     for txt_word in txt_words['words']:
                         if parsed['language'] == 'ja':
                             output += txt_word['text']
@@ -101,20 +90,8 @@ def handle_img(event):
     except Exception as e:
         print('Error:')
         print(e)
+        output = "画像の読み込みに失敗しました…ワタシが悪いんです…"
 
-    # #翻訳機能だがちょっとazureの調子が悪い
-    # import requests
-    # if parsed['language'] != "ja":
-    #     subscription = '38985089ed774d57b36fa61c1f30ecd4'
-    #     headers = {'Ocp-Apim-Subscription-Key': subscription,}
-    #     params = urllib.parse.urlencode({
-    #         'appid' : "Bearer" + " " + "access_token",
-    #         'text' : output,
-    #         'from' : parsed['language'],
-    #         'to' : 'ja',
-    #     })
-    #     res = requests.get('https://api.microsofttranslator.com/v2/Http.svc/Translate',params=params,headers=headers).text
-    #     print(res)
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text=output))
 if __name__ == "__main__":
     app.run()
